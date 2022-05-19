@@ -1,0 +1,22 @@
+{
+  "name": "gatsby-source-menus-strapi-plugin",
+  "version": "1.0.0",
+  "description": "source the data of menus strapi plugin into Gatsby",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/everythinginjs/gatsby-source-menus-strapi-plugin"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build script setup\""
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin"
+  ],
+  "author": "Amir Mahmoudi <amixengineer@gmail.com>",
+  "license": "0BSD",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
