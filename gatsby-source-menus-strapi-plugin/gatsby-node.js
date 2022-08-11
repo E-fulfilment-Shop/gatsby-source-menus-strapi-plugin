@@ -6,7 +6,7 @@ const fetchData = async (url) => await axios.get(url);
 
 exports.sourceNodes = async (
   { actions, createContentDigest, createNodeId },
-  { apiURL, menusEndpoint, nested = false }
+  { apiURL, menusEndpoint, nested = false, menuID = "" }
 ) => {
   if (!apiURL)
     return reporter.panic(
@@ -15,17 +15,22 @@ exports.sourceNodes = async (
 
   const { createNode } = actions;
 
-  const fetch_url = `${apiURL}/api/${
-    nested ? menusEndpoint + `?nested` : menusEndpoint
-  }`;
+  const nestedParam = nested
+    ? `${menusEndpoint}/${menuID}?nested&populate=*`
+    : menusEndpoint;
+  const fetch_url = `${apiURL}/api/${nestedParam}`;
 
-  const response = await fetchData(fetch_url).catch((error) => {
+  const { data: response } = await fetchData(fetch_url).catch((error) => {
     throw new Error(
       `🚫🚫🚫🙅‍♀️🙅‍♀️🙅‍♀️ Error fetching data from ${fetch_url} - ${error} 🚫🚫🚫🙅‍♀️🙅‍♀️🙅‍♀️`
     );
   });
 
-  response.data.menus.forEach((item) =>
+  const arrayOfItems = menuID
+    ? response.data.attributes.items.data
+    : response.data;
+
+  arrayOfItems.forEach((item) =>
     createNode({
       ...item,
       id: createNodeId(`${MENU_NODE_TYPE}-${item.id}`),
