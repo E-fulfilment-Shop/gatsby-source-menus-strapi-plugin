@@ -6,7 +6,7 @@ const fetchData = async (url, headers) => await axios.get(url, {headers: headers
 
 exports.sourceNodes = async (
     { actions, createContentDigest, createNodeId },
-    { apiURL, accessToken, menusEndpoint, nested = false, menuID = "" }
+    { apiURL, accessToken, menusEndpoint, nested = false, menuID = "", populateFields = [] }
 ) => {
     if (!apiURL)
         return reporter.panic(
@@ -15,8 +15,10 @@ exports.sourceNodes = async (
 
     const { createNode } = actions;
 
+    const populate = populateFields.length > 0 ? `&populate=${populateFields.join(',')}` : '';
+
     const nestedParam = nested
-        ? `${menusEndpoint}/${menuID}?nested&populate=*`
+        ? (`${menusEndpoint}/${menuID}?nested&populate=*` + populate)
         : menusEndpoint;
     const fetch_url = `${apiURL}/api/${nestedParam}`;
 
