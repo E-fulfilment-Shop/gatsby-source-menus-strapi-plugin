@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const MENU_NODE_TYPE = "StrapiMenus";
 
-const fetchData = async (url, headers) => await axios.get(url, headers);
+const fetchData = async (url, headers) => await axios.get(url, {headers: headers});
 
 exports.sourceNodes = async (
     { actions, createContentDigest, createNodeId },
